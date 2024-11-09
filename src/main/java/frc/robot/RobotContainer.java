@@ -6,10 +6,14 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Move;
+import frc.robot.commands.Spin;
 import frc.robot.subsystems.DriveTrain;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -23,14 +27,14 @@ public class RobotContainer {
   //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private DriveTrain m_driveTrain = new DriveTrain();
   private  XboxController m_driverController = new XboxController(OperatorConstants.kDriverControllerPort);
-  private Move move;
+  private Move m_move;
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    move = new Move(m_driveTrain, m_driverController);
-    m_driveTrain.setDefaultCommand(move);
+    m_move = new Move(m_driveTrain, m_driverController);
+    m_driveTrain.setDefaultCommand(m_move);
     
 
     configureBindings();
@@ -53,6 +57,12 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     //m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    //set the Left bumper (l1) as a way to spin the robot for a set amount of time (preferably until it does a 180 degree turn)
+    new JoystickButton(m_driverController, Button.kL1.value).whileTrue(new Spin(m_driveTrain, 0.5, 0.5, 3000));
+
+    //set the Right bumper (r1) as a way to spin the robot for a set amount of time (preferably until it does a 360 degree turn)
+    new JoystickButton(m_driverController, Button.kR1.value).whileTrue(new Spin(m_driveTrain, 0.5, 0.5, 6000));
   }
 
   /**

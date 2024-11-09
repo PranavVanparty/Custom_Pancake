@@ -10,23 +10,29 @@ import frc.robot.subsystems.DriveTrain;
 public class Spin extends Command {
   /** Creates a new Spin. */
   private DriveTrain m_driveTrain;
-  public double m_duration;
+  public long m_duration;
   public double m_speed;
-  public double m_startTime;
+  public long m_startTime;
   public double m_rotation;
 
   // Todo: add a way to make it spin for a set amount of time (ie 5 seconds because we dont know the angle of the robot hence we have to rely on time)
 
 
-  public Spin(DriveTrain thDriveTrain) {
+  public Spin(DriveTrain thDriveTrain, double theSpeed, double theRotation, long theDuration) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveTrain = thDriveTrain;
     addRequirements(m_driveTrain);
+
+    m_speed = theSpeed;
+    m_rotation = theRotation;
+    m_duration = theDuration;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_startTime = System.currentTimeMillis();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -41,6 +47,6 @@ public class Spin extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (System.currentTimeMillis() - m_startTime) >= m_duration;
   }
 }
