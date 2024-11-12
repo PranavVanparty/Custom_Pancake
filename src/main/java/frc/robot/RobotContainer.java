@@ -59,10 +59,10 @@ public class RobotContainer {
     //m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
     //set the Left bumper (l1) as a way to spin the robot for a set amount of time (preferably until it does a 180 degree turn)
-    new JoystickButton(m_driverController, Button.kL1.value).whileTrue(new Spin(m_driveTrain, 0.5, 0.5, 3000));
+    new JoystickButton(m_driverController, Button.kL1.value).whileTrue(new Spin(m_driveTrain, 0, 2, 3000));
 
     //set the Right bumper (r1) as a way to spin the robot for a set amount of time (preferably until it does a 360 degree turn)
-    new JoystickButton(m_driverController, Button.kR1.value).whileTrue(new Spin(m_driveTrain, 0.5, 0.5, 6000));
+    new JoystickButton(m_driverController, Button.kR1.value).whileTrue(new Spin(m_driveTrain, 0, 2, 6000));
   }
 
   /**

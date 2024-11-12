@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 
 
@@ -27,16 +28,20 @@ public class DriveTrain extends SubsystemBase {
     m_rightFront.setInverted(true);
     m_rightBack.setInverted(true); 
 
-    m_rightBack.follow(m_rightFront);
-    m_leftBack.follow(m_leftFront);
+    //m_rightBack.follow(m_rightFront);
+    //m_leftBack.follow(m_leftFront);
 
-    m_drive = new DifferentialDrive(m_leftFront, m_rightFront);
+    MotorControllerGroup m_left = new MotorControllerGroup(m_leftFront, m_leftBack);
+    MotorControllerGroup m_right = new MotorControllerGroup(m_rightFront, m_rightBack);
+
+
+    m_drive = new DifferentialDrive(m_left, m_right);
    }
 
   public void arcadeDrive(double speed, double rotation) {
     // To only have the robot going at half its max speed, you need to scale it by 0.5
-    speed *= 0.5;
-    rotation *= 0.5;
+    speed *= 2;
+    rotation *= 2;
 
     m_drive.arcadeDrive(speed,rotation);
   }
